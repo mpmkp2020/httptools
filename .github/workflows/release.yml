@@ -115,10 +115,15 @@ jobs:
       matrix:
         pyver: [cp35-cp35m, cp36-cp36m, cp37-cp37m, cp38-cp38, cp39-cp39]
         arch: [aarch64, x86_64]
+        exclude:
+          - pyver: cp35-cp35m
+            arch: aarch64
+          - pyver: cp39-cp39
+            arch: x86_64
       fail-fast: false
     runs-on: ubuntu-16.04
     #if: ${{ matrix.pyver }} == 'cp35-cp35m' && ${{matrix.arch}} == 'aarch64' || ${{matrix.pyver}} == 'cp39-cp39' && ${{matrix.arch}} == 'x86_64'
-    if: ${{ matrix.pyver }} == 'cp35-cp35m'
+    #if: ${{ matrix.pyver }} == 'cp35-cp35m'
     env:
       py: /opt/python/${{ matrix.pyver }}/bin/python
       img: quay.io/pypa/manylinux2014_${{ matrix.arch }}
