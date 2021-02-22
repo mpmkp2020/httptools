@@ -66,7 +66,7 @@ jobs:
     strategy:
       matrix:
         python-version: [3.5, 3.6, 3.7, 3.8]
-        os: [ubuntu-16.04, macos-latest, windows-latest]
+        os: [macos-latest, windows-latest]
         exclude:
           # Python 3.5 is unable to properly
           # find the recent VS tooling
