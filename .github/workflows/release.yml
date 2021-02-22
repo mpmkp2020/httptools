@@ -61,7 +61,7 @@ jobs:
         name: dist
         path: dist/
 
-  build-wheels:
+  build-non-linux-wheels:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -156,7 +156,7 @@ jobs:
         path: dist/
 
   publish:
-    needs: [build-sdist, build-wheels, build-linux-wheels]
+    needs: [build-sdist, build-non-linux-wheels, build-linux-wheels]
     runs-on: ubuntu-latest
 
     steps:
