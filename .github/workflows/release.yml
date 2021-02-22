@@ -108,27 +108,16 @@ jobs:
       with:
         name: dist
         path: dist/
-        
-
-    - name: Build Wheels (linux)
-      if: startsWith(matrix.os, 'ubuntu')
-      uses: docker://quay.io/pypa/manylinux1_x86_64
-      env:
-        PYTHON_VERSION: ${{ matrix.python-version }}
-      with:
-        entrypoint: /github/workspace/.github/workflows/build-manylinux-wheels.sh
-
-
-  
 
   build-linux-aarch64:
     name: Linux
     strategy:
       matrix:
-        pyver: [cp36-cp36m, cp37-cp37m, cp38-cp38, cp39-cp39]
+        pyver: [cp35-cp35m, cp36-cp36m, cp37-cp37m, cp38-cp38, cp39-cp39]
         arch: [aarch64, x86_64]
       fail-fast: false
     runs-on: ubuntu-16.04
+    if: matrix.pyver='cp35-cp35m' && matrix.arch='aarch64' || matrix.pyver='cp39-cp39' && matrix.arch='x86_64'
     env:
       py: /opt/python/${{ matrix.pyver }}/bin/python
       img: quay.io/pypa/manylinux2014_${{ matrix.arch }}
