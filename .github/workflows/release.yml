@@ -4,8 +4,6 @@ on:
   push:
     branches:
       - "master"
-    paths:
-      - "httptools/_version.py"
 
 jobs:
   validate-release-request:
