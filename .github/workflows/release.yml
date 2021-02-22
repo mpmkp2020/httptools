@@ -62,7 +62,6 @@ jobs:
         path: dist/
 
   build-wheels:
-    needs: validate-release-request
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
@@ -109,7 +108,7 @@ jobs:
         name: dist
         path: dist/
 
-  build-linux-aarch64:
+  build-linux-wheels:
     name: Linux
     strategy:
       matrix:
@@ -122,8 +121,6 @@ jobs:
             arch: x86_64
       fail-fast: false
     runs-on: ubuntu-16.04
-    #if: ${{ matrix.pyver }} == 'cp35-cp35m' && ${{matrix.arch}} == 'aarch64' || ${{matrix.pyver}} == 'cp39-cp39' && ${{matrix.arch}} == 'x86_64'
-    #if: ${{ matrix.pyver }} == 'cp35-cp35m'
     env:
       py: /opt/python/${{ matrix.pyver }}/bin/python
       img: quay.io/pypa/manylinux2014_${{ matrix.arch }}
@@ -159,7 +156,7 @@ jobs:
         path: dist/
 
   publish:
-    needs: [build-sdist, build-wheels, build-linux-aarch64]
+    needs: [build-sdist, build-wheels, build-linux-wheels]
     runs-on: ubuntu-latest
 
     steps:
