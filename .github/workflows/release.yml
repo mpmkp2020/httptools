@@ -106,7 +106,7 @@ jobs:
       if: |
         !contains(github.event.pull_request.labels.*.name, 'skip wheel tests')
       run: |
-        echo ${{github.event.pull_request.labels.*.name}}
+        echo ${{github.event.pull_request.labels.*.name[*]}}
       #run: |
       #  docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
       #    ${{ env.img }} \
