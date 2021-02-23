@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - "arm_support"
+      - "test1"
+      - "master"
 
 jobs:
   validate-release-request:
