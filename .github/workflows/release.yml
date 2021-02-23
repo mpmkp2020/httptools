@@ -101,8 +101,7 @@ jobs:
             rm -f dist/*-linux_*.whl && \
             deactivate'
     - name: Test wheel
-      if: |
-        !contains(github.event.pull_request.labels.*.name, 'skip wheel tests')
+      if: ${{ !contains(github.event.pull_request.labels.*.name, 'skip wheel tests') }}
       run: |
         docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
           ${{ env.img }} \
