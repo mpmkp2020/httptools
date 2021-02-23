@@ -88,10 +88,7 @@ jobs:
       uses: docker/setup-qemu-action@v1
     - name: Available platforms
       run: echo ${{ steps.qemu.outputs.platforms }}
-    - name: Build and Test wheel
-      if: |
-        !startsWith(matrix.os, 'windows')
-        && !contains(github.event.pull_request.labels.*.name, 'skip wheel tests')
+    - name: Build wheel
       run: |
         docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
           ${{ env.img }} \
@@ -102,8 +99,18 @@ jobs:
             python setup.py bdist_wheel && \
             auditwheel repair dist/*.whl --wheel-dir dist/ && \
             rm -f dist/*-linux_*.whl && \
+            deactivate'
+    - name: Test wheel
+      if: |
+        !contains(github.event.pull_request.labels.*.name, 'skip wheel tests')
+      run: |
+        docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
+          ${{ env.img }} \
+          bash -exc '\
+            source .env/bin/activate && \
             pip install --pre httptools -f "file:///ws/dist" && \
-            pytest tests/__init__.py'
+            pytest tests/__init__.py && \
+            deactivate'
     - uses: actions/upload-artifact@v1
       with:
         name: dist
