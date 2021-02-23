@@ -106,7 +106,8 @@ jobs:
       if: |
         !contains(github.event.pull_request.labels.*.name, 'skip wheel tests')
       run: |
-        echo ${${{github.event.pull_request.labels.*.name}}[*]}
+        my_array=${{github.event.pull_request.labels.*.name}}
+        printf '%s\n' "${my_array[@]}"
       #run: |
       #  docker run --rm -v ${{ github.workspace }}:/ws:rw --workdir=/ws \
       #    ${{ env.img }} \
